@@ -1,0 +1,2816 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the Volcano Evacuation Analysis pipeline">
+      
+      
+        <meta name="author" content="Mojan Marghoub Shadkar">
+      
+      
+      
+        <link rel="prev" href="data-acquisition.html">
+      
+      
+        <link rel="next" href="evacuation-analysis.html">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
+    
+    
+      
+        <title>Cost Surface Generation - Volcano Pedestrian Evacuation Analysis</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cost-surface-generation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Volcano Pedestrian Evacuation Analysis" class="md-header__button md-logo" aria-label="Volcano Pedestrian Evacuation Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Volcano Pedestrian Evacuation Analysis
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cost Surface Generation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting-started.html" class="md-tabs__link">
+        
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation.html" class="md-tabs__link">
+        
+  
+    
+  
+  Installation Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="workflow-overview.html" class="md-tabs__link">
+          
+  
+  Workflow
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../modules/cost-calculations.html" class="md-tabs__link">
+          
+  
+  Modules
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/index.html" class="md-tabs__link">
+          
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../source-code/index.html" class="md-tabs__link">
+          
+  
+  Source Code
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../demo/data-download.html" class="md-tabs__link">
+          
+  
+  Demo
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Volcano Pedestrian Evacuation Analysis" class="md-nav__button md-logo" aria-label="Volcano Pedestrian Evacuation Analysis" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Volcano Pedestrian Evacuation Analysis
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Workflow
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Workflow
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflow-overview.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="data-acquisition.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Acquisition
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Cost Surface Generation
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="cost-surface.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Cost Surface Generation
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-calculate-slope-from-dem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Calculate Slope from DEM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-apply-toblers-hiking-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Apply Tobler's Hiking Function
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-assign-costs-to-land-cover-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Assign Costs to Land Cover Classes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-apply-masks-for-special-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Apply Masks for Special Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-combine-slope-based-and-land-cover-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Combine Slope-Based and Land Cover Costs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-invert-the-cost-surface-for-path-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6: Invert the Cost Surface for Path Finding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-save-the-final-cost-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 7: Save the Final Cost Surface
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizing-the-cost-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visualizing the Cost Surface
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario Analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-sensitivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameter Sensitivity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#missing-or-incorrect-land-cover-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing or Incorrect Land Cover Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unrealistic-travel-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unrealistic Travel Times
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-issues-with-large-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Issues with Large Datasets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="evacuation-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evacuation Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Modules
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/cost-calculations.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cost Calculation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/evacuation-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evacuation Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/probability-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Probability Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cost Calculation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Cost Calculation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/cost-calculation/data-loading.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Loading
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/cost-calculation/dem-processing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DEM Processing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/cost-calculation/cost-calculations.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cost Calculations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/cost-calculation/plotting-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plotting Utils
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Evacuation Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Evacuation Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evacuation-analysis/io-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IO Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evacuation-analysis/config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evacuation-analysis/analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evacuation-analysis/grid-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grid Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evacuation-analysis/path-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Path Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evacuation-analysis/decomposition.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Decomposition
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/evacuation-analysis/visualization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Visualization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Probability Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            Probability Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/probability-analysis/data-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Utils
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/probability-analysis/raster-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Raster Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/probability-analysis/analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/probability-analysis/graph-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Graph Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/probability-analysis/visualization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Visualization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Source Code
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Source Code
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cost Calculation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Cost Calculation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/cost-calculation/data-loading.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    data_loading.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/cost-calculation/dem-processing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    dem_processing.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/cost-calculation/cost-calculations.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    cost_calculations.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/cost-calculation/plotting-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    plotting_utils.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Evacuation Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Evacuation Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/evacuation-analysis/io-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    io_utils.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/evacuation-analysis/config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    config.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/evacuation-analysis/analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    analysis.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/evacuation-analysis/grid-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    grid_utils.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/evacuation-analysis/path-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    path_utils.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/evacuation-analysis/decomposition.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    decomposition.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/evacuation-analysis/visualization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    visualization.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Probability Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            Probability Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/probability-analysis/data-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    data_utils.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/probability-analysis/raster-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    raster_utils.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/probability-analysis/probability_analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    analysis.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/probability-analysis/graph-utils.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    graph_utils.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-code/probability-analysis/prob_visualization.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    visualization.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Demo
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Demo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo/data-download.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Volcano Data Acquisition with Google Earth Engine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo/cost-calculation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cost Surface Generation for Volcano Evacuation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Case Studies
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            Case Studies
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3_1" id="__nav_8_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Mount Awu
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Mount Awu
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo/awu/evacuation-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Volcanic Evacuation Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo/awu/probability-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Probability Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-calculate-slope-from-dem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Calculate Slope from DEM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-apply-toblers-hiking-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Apply Tobler's Hiking Function
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-assign-costs-to-land-cover-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Assign Costs to Land Cover Classes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-apply-masks-for-special-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Apply Masks for Special Features
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-combine-slope-based-and-land-cover-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Combine Slope-Based and Land Cover Costs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-invert-the-cost-surface-for-path-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6: Invert the Cost Surface for Path Finding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-save-the-final-cost-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 7: Save the Final Cost Surface
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizing-the-cost-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visualizing the Cost Surface
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario Analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-sensitivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameter Sensitivity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#missing-or-incorrect-land-cover-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Missing or Incorrect Land Cover Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unrealistic-travel-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unrealistic Travel Times
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-issues-with-large-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Issues with Large Datasets
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cost-surface-generation">Cost Surface Generation</h1>
+<p>This page describes the process of generating cost surfaces for volcanic evacuation analysis. Cost surfaces represent the difficulty of traversing different types of terrain and are essential for realistic evacuation route modeling.</p>
+<h2 id="overview">Overview</h2>
+<p>The cost surface generation workflow combines two key factors:</p>
+<ol>
+<li><strong>Slope-based costs</strong>: Derived from the Digital Elevation Model (DEM) using Tobler's hiking function</li>
+<li><strong>Land cover costs</strong>: Assigned based on different terrain types from land cover classification</li>
+</ol>
+<p>These factors are integrated to create comprehensive cost surfaces that account for both topographic and land cover characteristics, resulting in realistic travel time estimates.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before generating cost surfaces, ensure you have:</p>
+<ol>
+<li>Completed the <a href="data-acquisition.html">Data Acquisition</a> step</li>
+<li>Downloaded DEM and land cover data for your volcano of interest</li>
+<li>Installed the required dependencies as specified in the <a href="installation-requirements.html">Installation Requirements</a></li>
+</ol>
+<h2 id="workflow-diagram">Workflow Diagram</h2>
+<p>The cost surface generation process follows these steps:</p>
+<pre class="mermaid"><code>flowchart TD
+    DEM[DEM Data] --&gt; SlopeCalc[Calculate Slope in 8 Directions]
+    SlopeCalc --&gt; ToblerFunc[Apply Tobler's Hiking Function]
+    ToblerFunc --&gt; NormalizeSpeed[Normalize Walking Speed]
+
+    LandCover[Land Cover Data] --&gt; ClassCost[Assign Costs to Land Cover Classes]
+    ClassCost --&gt; Mask[Apply Masks for Impassable Areas]
+
+    NormalizeSpeed --&gt; CombineCosts[Combine Costs]
+    Mask --&gt; CombineCosts
+
+    CombineCosts --&gt; InvertCosts[Invert Cost Surface]
+    InvertCosts --&gt; FinalCost[Final Cost Surface]
+
+    style DEM fill:#d4f1f9,stroke:#333
+    style LandCover fill:#d4f1f9,stroke:#333
+    style FinalCost fill:#75b79e,stroke:#333,stroke-width:2px</code></pre>
+<h2 id="step-1-calculate-slope-from-dem">Step 1: Calculate Slope from DEM</h2>
+<p>First, calculate the slope in eight directions (cardinal and intercardinal) from the DEM:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">dem_processing</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_slope</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+
+<span class="c1"># Load the DEM</span>
+<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Volcano_DEM_100m_Buffer_UTM.tif&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+    <span class="n">dem_data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dem_meta</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">meta</span>
+    <span class="n">resolution_x</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">resolution_y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">no_data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">nodata</span>
+
+<span class="c1"># Calculate slope in 8 directions</span>
+<span class="n">slope_array</span> <span class="o">=</span> <span class="n">calculate_slope</span><span class="p">(</span><span class="n">dem_data</span><span class="p">,</span> <span class="n">resolution_x</span><span class="p">,</span> <span class="n">resolution_y</span><span class="p">,</span> <span class="n">no_data</span><span class="p">)</span>
+
+<span class="c1"># slope_array shape: (8, rows, cols) - one array for each direction</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Calculated slope in 8 directions. Shape: </span><span class="si">{</span><span class="n">slope_array</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>The resulting <code>slope_array</code> contains slopes for each of the eight movement directions: North, South, East, West, North-East, North-West, South-East, and South-West.</p>
+<h2 id="step-2-apply-toblers-hiking-function">Step 2: Apply Tobler's Hiking Function</h2>
+<p>Next, apply Tobler's hiking function to convert slopes to walking speeds:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">dem_processing</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_walking_speed</span><span class="p">,</span> <span class="n">normalize_walking_speed</span>
+
+<span class="c1"># Calculate walking speed using Tobler&#39;s function</span>
+<span class="n">walking_speed_array</span> <span class="o">=</span> <span class="n">calculate_walking_speed</span><span class="p">(</span><span class="n">slope_array</span><span class="p">)</span>
+
+<span class="c1"># Normalize walking speed by dividing by max speed (occurs at slight downhill)</span>
+<span class="n">normalized_ws</span> <span class="o">=</span> <span class="n">normalize_walking_speed</span><span class="p">(</span><span class="n">walking_speed_array</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applied Tobler&#39;s hiking function to calculate walking speeds&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Tobler's hiking function models how walking speed varies with slope:</p>
+<div class="arithmatex">\[ V = 6 \times e^{-3.5 \times |S + 0.05|} \]</div>
+<p>Where:
+- V is the walking speed in km/h
+- S is the slope in rise/run (not degrees)
+- The constant 0.05 accounts for the observation that walking is slightly faster on gentle downhill slopes</p>
+<h2 id="step-3-assign-costs-to-land-cover-classes">Step 3: Assign Costs to Land Cover Classes</h2>
+<p>In parallel, assign cost factors to different land cover types:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cost_calculations</span><span class="w"> </span><span class="kn">import</span> <span class="n">map_landcover_to_cost</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+
+<span class="c1"># Load land cover data</span>
+<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Volcano_LandCover_2019_100m_Buffer_UTM.tif&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+    <span class="n">landcover_data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">lc_meta</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">meta</span>
+
+<span class="c1"># Define cost mapping for different land cover classes</span>
+<span class="c1"># Values represent difficulty multipliers (1.0 = normal speed, 2.0 = half speed)</span>
+<span class="n">land_cover_cost_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>       <span class="c1"># No data</span>
+    <span class="mi">20</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>         <span class="c1"># Shrubs</span>
+    <span class="mi">30</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>         <span class="c1"># Herbaceous vegetation</span>
+    <span class="mi">40</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>         <span class="c1"># Cropland</span>
+    <span class="mi">50</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>         <span class="c1"># Urban/built-up</span>
+    <span class="mi">60</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>         <span class="c1"># Bare/sparse vegetation</span>
+    <span class="mi">70</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>         <span class="c1"># Snow and ice</span>
+    <span class="mi">80</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>         <span class="c1"># Permanent water bodies</span>
+    <span class="mi">90</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>         <span class="c1"># Herbaceous wetland</span>
+    <span class="mi">100</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>        <span class="c1"># Moss and lichen</span>
+    <span class="mi">111</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>        <span class="c1"># Closed forest, evergreen needle leaf</span>
+    <span class="mi">112</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>        <span class="c1"># Closed forest, evergreen broad leaf</span>
+    <span class="mi">113</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>        <span class="c1"># Closed forest, deciduous needle leaf</span>
+    <span class="mi">114</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>        <span class="c1"># Closed forest, deciduous broad leaf</span>
+    <span class="mi">115</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>        <span class="c1"># Closed forest, mixed</span>
+    <span class="mi">116</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>        <span class="c1"># Closed forest, unknown</span>
+    <span class="mi">121</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>        <span class="c1"># Open forest, evergreen needle leaf</span>
+    <span class="mi">122</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>        <span class="c1"># Open forest, evergreen broad leaf</span>
+    <span class="mi">123</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>        <span class="c1"># Open forest, deciduous needle leaf</span>
+    <span class="mi">124</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>        <span class="c1"># Open forest, deciduous broad leaf</span>
+    <span class="mi">125</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>        <span class="c1"># Open forest, mixed</span>
+    <span class="mi">126</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span>        <span class="c1"># Open forest, unknown</span>
+    <span class="mi">200</span><span class="p">:</span> <span class="mf">1000.0</span>      <span class="c1"># Impassable (streams, cliffs)</span>
+<span class="p">}</span>
+
+<span class="c1"># Map land cover classes to costs</span>
+<span class="n">landcover_cost</span> <span class="o">=</span> <span class="n">map_landcover_to_cost</span><span class="p">(</span><span class="n">landcover_data</span><span class="p">,</span> <span class="n">land_cover_cost_mapping</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Assigned costs to land cover classes&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>The land cover cost mapping assigns different travel difficulty factors to each land cover type. For example:
+- Open terrain (bare/sparse vegetation): 1.0 (no speed reduction)
+- Forests: 1.2-1.3 (20-30% speed reduction)
+- Urban areas: 2.0 (50% speed reduction)
+- Impassable areas (water bodies, steep cliffs): 1000.0 (effectively impassable)</p>
+<h2 id="step-4-apply-masks-for-special-features">Step 4: Apply Masks for Special Features</h2>
+<p>Some features may need special handling. For example, hiking trails should be easier to traverse, while streams may be impassable:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cost_calculations</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_cost_raster</span><span class="p">,</span> <span class="n">rasterize_layer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+
+<span class="c1"># Load hiking path and streams from shapefiles</span>
+<span class="n">hiking_paths</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;hiking_path.shp&quot;</span><span class="p">)</span>
+<span class="n">streams</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;streams.shp&quot;</span><span class="p">)</span>
+
+<span class="c1"># Rasterize hiking paths and streams</span>
+<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Volcano_DEM_100m_Buffer_UTM.tif&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+    <span class="n">out_shape</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="n">hiking_raster</span> <span class="o">=</span> <span class="n">rasterize_layer</span><span class="p">(</span>
+    <span class="n">hiking_paths</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+    <span class="n">out_shape</span><span class="p">,</span>
+    <span class="n">transform</span><span class="p">,</span>
+    <span class="n">burn_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="p">)</span>
+
+<span class="n">stream_raster</span> <span class="o">=</span> <span class="n">rasterize_layer</span><span class="p">(</span>
+    <span class="n">streams</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+    <span class="n">out_shape</span><span class="p">,</span>
+    <span class="n">transform</span><span class="p">,</span>
+    <span class="n">burn_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="p">)</span>
+
+<span class="c1"># Update cost raster with hiking paths and streams</span>
+<span class="c1"># Hiking paths: set cost to 1 (easy to traverse)</span>
+<span class="c1"># Streams: set cost to 0 (impassable)</span>
+<span class="n">updated_cost_raster</span> <span class="o">=</span> <span class="n">update_cost_raster</span><span class="p">(</span><span class="n">landcover_cost</span><span class="p">,</span> <span class="n">stream_raster</span><span class="p">,</span> <span class="n">hiking_raster</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applied masks for hiking paths and streams&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>This step overlays vector features like hiking paths and streams onto the cost surface, making hiking paths easier to traverse and streams impassable.</p>
+<h2 id="step-5-combine-slope-based-and-land-cover-costs">Step 5: Combine Slope-Based and Land Cover Costs</h2>
+<p>Now combine the slope-based costs (from Tobler's function) with the land cover costs:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cost_calculations</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjust_cost_with_walking_speed</span>
+
+<span class="c1"># Create separate bands for each direction</span>
+<span class="n">adjusted_cost_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">normalized_ws</span><span class="p">)</span>
+
+<span class="c1"># Adjust cost by multiplying normalized walking speed with land cover costs</span>
+<span class="k">for</span> <span class="n">direction</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">adjusted_cost_array</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjust_cost_with_walking_speed</span><span class="p">(</span>
+        <span class="n">normalized_ws</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span>
+        <span class="n">updated_cost_raster</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Combined slope-based and land cover costs&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>This multiplication effectively reduces walking speed based on both slope steepness and terrain type.</p>
+<h2 id="step-6-invert-the-cost-surface-for-path-finding">Step 6: Invert the Cost Surface for Path Finding</h2>
+<p>For path finding algorithms, we need to invert the cost surface (since higher speeds should result in lower costs):</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cost_calculations</span><span class="w"> </span><span class="kn">import</span> <span class="n">invert_cost_array</span>
+
+<span class="c1"># Invert the cost array (1/cost) for use in path finding</span>
+<span class="n">inverted_cost_array</span> <span class="o">=</span> <span class="n">invert_cost_array</span><span class="p">(</span><span class="n">adjusted_cost_array</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inverted cost surface for path finding&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>The inversion converts speed values to cost values, where:
+- Higher speeds → Lower costs
+- Lower speeds → Higher costs
+- Impassable areas → Very high cost or infinity</p>
+<h2 id="step-7-save-the-final-cost-surface">Step 7: Save the Final Cost Surface</h2>
+<p>Finally, save the cost surface for use in evacuation analysis:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Save the inverted cost array</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="s2">&quot;inverted_cost_8_directions.tif&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+    <span class="n">output_path</span><span class="p">,</span> 
+    <span class="s1">&#39;w&#39;</span><span class="p">,</span>
+    <span class="n">driver</span><span class="o">=</span><span class="s1">&#39;GTiff&#39;</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="n">inverted_cost_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">width</span><span class="o">=</span><span class="n">inverted_cost_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="n">count</span><span class="o">=</span><span class="n">inverted_cost_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">inverted_cost_array</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+    <span class="n">crs</span><span class="o">=</span><span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;crs&#39;</span><span class="p">],</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">],</span>
+    <span class="n">nodata</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">inverted_cost_array</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved final cost surface to </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="visualizing-the-cost-surface">Visualizing the Cost Surface</h2>
+<p>To better understand the cost surface, you can visualize it:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">plotting_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_continuous_raster_with_points</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+
+<span class="c1"># Load summit point</span>
+<span class="n">summit_point</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;summit.shp&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot one direction (e.g., North)</span>
+<span class="n">north_direction</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">plot_continuous_raster_with_points</span><span class="p">(</span>
+    <span class="n">inverted_cost_array</span><span class="p">[</span><span class="n">north_direction</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">],</span>
+     <span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">],</span> <span class="n">dem_meta</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">][</span><span class="mi">5</span><span class="p">]],</span>
+    <span class="n">summit_point</span><span class="p">,</span>
+    <span class="s2">&quot;Cost Surface (North Direction)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Cost Value&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cost_surface_north.jpg&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="scenario-analysis">Scenario Analysis</h2>
+<p>You can generate multiple cost surfaces to compare different scenarios:</p>
+<ol>
+<li><strong>Base Scenario</strong>: Standard land cover and slope costs</li>
+<li><strong>Degraded Terrain</strong>: Increase costs for certain land cover types to simulate adverse conditions (e.g., wet ground after rainfall)</li>
+<li><strong>Infrastructure Damage</strong>: Mark certain paths as impassable to simulate damaged infrastructure</li>
+<li><strong>Seasonal Variation</strong>: Adjust costs based on seasonal conditions (e.g., snow cover in winter)</li>
+</ol>
+<p>Example of creating a modified scenario:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Modify land cover costs for a &quot;wet terrain&quot; scenario</span>
+<span class="n">wet_terrain_mapping</span> <span class="o">=</span> <span class="n">land_cover_cost_mapping</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">wet_terrain_mapping</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="mi">20</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>         <span class="c1"># Shrubs (increased difficulty when wet)</span>
+    <span class="mi">30</span><span class="p">:</span> <span class="mf">1.8</span><span class="p">,</span>         <span class="c1"># Herbaceous vegetation (increased difficulty when wet)</span>
+    <span class="mi">60</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>         <span class="c1"># Bare/sparse vegetation (increased difficulty when wet)</span>
+<span class="p">})</span>
+
+<span class="c1"># Generate a new cost surface with these modified values</span>
+<span class="c1"># ... (repeat steps 3-7 with the new mapping)</span>
+</code></pre></div>
+<h2 id="parameter-sensitivity">Parameter Sensitivity</h2>
+<p>The cost surface is sensitive to several parameters:</p>
+<ol>
+<li><strong>Land cover cost values</strong>: Different multipliers for land cover types</li>
+<li><strong>Walking speed parameters</strong>: Constants in Tobler's function</li>
+<li><strong>Special feature handling</strong>: How hiking paths and impassable features are treated</li>
+</ol>
+<p>It's recommended to perform sensitivity analysis by varying these parameters and comparing the resulting evacuation routes and times.</p>
+<h2 id="next-steps">Next Steps</h2>
+<p>With the cost surface generated, you can now proceed to the <a href="evacuation-analysis.html">Evacuation Analysis</a> workflow to:</p>
+<ol>
+<li>Calculate optimal evacuation routes from various starting points</li>
+<li>Estimate evacuation times for different scenarios</li>
+<li>Analyze the accessibility of safe zones</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="missing-or-incorrect-land-cover-mapping">Missing or Incorrect Land Cover Mapping</h3>
+<p>If land cover classes in your study area are not properly represented in the default mapping:</p>
+<ol>
+<li>Use GIS software to identify the unique land cover classes in your data</li>
+<li>Update the <code>land_cover_cost_mapping</code> dictionary to include all classes</li>
+<li>Consult literature or local knowledge to assign appropriate cost values</li>
+</ol>
+<h3 id="unrealistic-travel-times">Unrealistic Travel Times</h3>
+<p>If the calculated travel times seem unrealistic:</p>
+<ol>
+<li>Check the slope calculation to ensure units are correct (rise/run, not degrees)</li>
+<li>Verify the land cover cost multipliers are reasonable</li>
+<li>Consider calibrating the model using known travel times from field measurements</li>
+</ol>
+<h3 id="memory-issues-with-large-datasets">Memory Issues with Large Datasets</h3>
+<p>For very large study areas, you may encounter memory issues:</p>
+<ol>
+<li>Process the data in tiles or with a reduced buffer size</li>
+<li>Decrease the spatial resolution of the analysis</li>
+<li>Use a computer with more RAM or consider cloud computing options</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.tabs.link"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
