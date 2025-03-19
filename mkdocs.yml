@@ -1,0 +1,118 @@
+site_name: Volcano Pedestrian Evacuation Analysis
+site_description: Documentation for the Volcano Evacuation Analysis pipeline
+site_author: Mojan Marghoub Shadkar
+
+# Use directory URLs
+use_directory_urls: false
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.annotate
+    - content.tabs.link
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+  - mkdocs-jupyter
+  - include-markdown
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Installation Guide: installation.md
+  - Workflow:
+    - Overview: workflow/workflow-overview.md
+    - Data Acquisition: workflow/data-acquisition.md
+    - Cost Surface Generation: workflow/cost-surface.md
+    - Evacuation Analysis: workflow/evacuation-analysis.md
+  - Modules:
+    - Cost Calculation: modules/cost-calculations.md
+    - Evacuation Analysis: modules/evacuation-analysis.md
+    - Probability Analysis: modules/probability-analysis.md
+  - API Reference:
+    - Overview: api/index.md
+    - Cost Calculation:
+        - Data Loading: api/cost-calculation/data-loading.md
+        - DEM Processing: api/cost-calculation/dem-processing.md
+        - Cost Calculations: api/cost-calculation/cost-calculations.md
+        - Plotting Utils: api/cost-calculation/plotting-utils.md
+    - Evacuation Analysis:
+        - IO Utilities: api/evacuation-analysis/io-utils.md
+        - Configuration: api/evacuation-analysis/config.md
+        - Analysis: api/evacuation-analysis/analysis.md
+        - Grid Utilities: api/evacuation-analysis/grid-utils.md
+        - Path Utilities: api/evacuation-analysis/path-utils.md
+        - Decomposition: api/evacuation-analysis/decomposition.md
+        - Visualization: api/evacuation-analysis/visualization.md
+    - Probability Analysis:
+        - Data Utils: api/probability-analysis/data-utils.md
+        - Raster Utilities: api/probability-analysis/raster-utils.md
+        - Analysis: api/probability-analysis/analysis.md
+        - Graph Utilities: api/probability-analysis/graph-utils.md
+        - Visualization: api/probability-analysis/visualization.md
+  - Source Code:
+    - Overview: source-code/index.md
+    - Cost Calculation:
+        - data_loading.py: source-code/cost-calculation/data-loading.py
+        - dem_processing.py: source-code/cost-calculation/dem-processing.py
+        - cost_calculations.py: source-code/cost-calculation/cost-calculations.py
+        - plotting_utils.py: source-code/cost-calculation/plotting-utils.py
+    - Evacuation Analysis:
+        - io_utils.py: source-code/evacuation-analysis/io-utils.py
+        - config.py: source-code/evacuation-analysis/config.py
+        - analysis.py: source-code/evacuation-analysis/analysis.py
+        - grid_utils.py: source-code/evacuation-analysis/grid-utils.py
+        - path_utils.py: source-code/evacuation-analysis/path-utils.py
+        - decomposition.py: source-code/evacuation-analysis/decomposition.py
+        - visualization.py: source-code/evacuation-analysis/visualization.py
+    - Probability Analysis:
+        - data_utils.py: source-code/probability-analysis/data-utils.py
+        - raster_utils.py: source-code/probability-analysis/raster-utils.py
+        - analysis.py: source-code/probability-analysis/probability_analysis.py
+        - graph_utils.py: source-code/probability-analysis/graph-utils.py
+        - visualization.py: source-code/probability-analysis/prob_visualization.py
+  - Demo:
+    - Data Download: demo/data-download.ipynb
+    - Cost Calculation: demo/cost-calculation.ipynb
+    - Case Studies:
+       - Mount Awu:
+          - Evacuation Analysis: demo/awu/evacuation-analysis.ipynb
+          - Probability Analysis: demo/awu/probability-analysis.ipynb
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
