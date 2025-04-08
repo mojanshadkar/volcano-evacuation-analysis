@@ -94,8 +94,8 @@ def plot_travel_time_comparison(all_results, safe_zone_distances, source_names, 
     """
     Create a comparison plot of minimum travel times for different evacuation scenarios.
     
-    This function generates a figure with three subplots showing travel time curves
-    for summit, camp1, and camp2 sources. Each subplot compares travel times for
+    This function generates a figure with subplots showing travel time curves
+    for different source locations. Each subplot compares travel times for
     different walking speeds (slow, medium, fast) and terrain scenarios (original 
     and penalized landcover).
     
@@ -139,10 +139,20 @@ def plot_travel_time_comparison(all_results, safe_zone_distances, source_names, 
     # Create figure in A4 landscape format (11.69 x 8.27 inches)
     fig, axes = plt.subplots(1, 2, figsize=(11.69, 4), sharey=True)
     
+    # Add a main title to the figure
+    fig.suptitle('Evacuation Travel Time Comparison by Starting Location', 
+                 fontsize=14, fontweight='bold', y=0.98)
+    
     # Store lines and labels for the legend
     lines = []
     labels = []
     first_plot = True
+    
+    # Source location descriptive names (more informative than 'summit', 'camp1')
+    location_names = {
+        'summit': 'Volcano Summit',
+        'camp1': 'Base Camp'
+    }
     
     # For each source
     for src_idx, source_name in enumerate(selected_sources):
@@ -168,30 +178,34 @@ def plot_travel_time_comparison(all_results, safe_zone_distances, source_names, 
             if first_plot:
                 lines.extend([line1[0], line2[0]])
                 labels.extend([
-                    f'{speed_name.capitalize()} - Original', 
-                    f'{speed_name.capitalize()} - Penalized'
+                    f'{speed_name.capitalize()} - Original Terrain', 
+                    f'{speed_name.capitalize()} - Penalized Terrain'
                 ])
         
         # Add letter label in top left corner
         ax.text(0.05, 0.95, chr(65 + src_idx), transform=ax.transAxes, 
                 fontsize=12, fontweight='bold', va='top')
         
+        # Add descriptive title for each subplot
+        ax.set_title(f'Evacuation from {location_names[source_name]}', fontsize=11)
+        
         ax.set_xlabel("Safe Zone Radius (m)", fontsize=10)
         if src_idx == 0:  # Add ylabel only for leftmost plot
             ax.set_ylabel("Minimum Travel Time (hrs)", fontsize=10)
         ax.grid(True, alpha=0.3)
         
-        # Add legend to the right side of the third subplot
-        if src_idx == 2:  # For the last subplot
-            box = ax.get_position()
-            ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-            ax.legend(lines, labels, fontsize=9, 
-                      loc='center left', 
-                      bbox_to_anchor=(1.05, 0.5))
-        
         first_plot = False
     
+    # Add legend to the figure (not to a specific subplot)
+    # This prevents legend from being cut off
+    fig.legend(lines, labels, fontsize=9, 
+               loc='lower center', 
+               bbox_to_anchor=(0.5, 0.01),
+               ncol=4)  # Use multiple columns for compact legend
+    
+    # Adjust layout to make room for the legend at the bottom
     plt.tight_layout()
+    plt.subplots_adjust(bottom=0.25)  # Make room for legend
     
     # Comment out plt.show() to avoid opening a new window:
     plt.show()
@@ -261,8 +275,19 @@ def create_cost_surface_subplots(dataset_info, cost_arrays, transforms, evacuati
     # Create figure with larger size 
     fig = plt.figure(figsize=(11.69, 8.27))  # Landscape A4
     
+    # Add main title to the figure
+    fig.suptitle('Evacuation Paths and Travel Time Cost Surfaces', 
+                 fontsize=16, fontweight='bold', y=0.98)
+    
+    # Descriptive names for the terrain scenarios
+    terrain_scenario_names = {
+        'final': 'Standard Terrain Assessment',
+        'modify_landcover': 'Penalized Landcover Terrain'
+    }
+    
     # Create subplot grid with space for legend and colorbar
-    gs = plt.GridSpec(2, 2, height_ratios=[0.9, 0.1], hspace=0.1)
+    # Now using 3 rows - plots, legend, colorbar
+    gs = plt.GridSpec(3, 2, height_ratios=[0.8, 0.1, 0.1], hspace=0.15)
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
     
@@ -352,11 +377,18 @@ def create_cost_surface_subplots(dataset_info, cost_arrays, transforms, evacuati
                 transform=ax.transAxes, fontsize=10, fontweight='bold',
                 verticalalignment='top')
         
+        # Add descriptive title for each subplot
+        ax.set_title(f'{terrain_scenario_names[ds_key]}', fontsize=12)
+        
         # Add axis labels
         ax.set_xlabel('Easting (m)')
         ax.set_ylabel('Northing (m)')
     
-    # Add legend
+    # Add legend below both subplots using the middle row of the GridSpec
+    legend_ax = fig.add_subplot(gs[1, :])
+    legend_ax.axis('off')  # Hide the axis
+    
+    # Get unique handles and labels
     handles, labels = ax1.get_legend_handles_labels()
     unique_labels = []
     unique_handles = []
@@ -367,20 +399,24 @@ def create_cost_surface_subplots(dataset_info, cost_arrays, transforms, evacuati
             unique_labels.append(label)
             unique_handles.append(handle)
     
-    ax2.legend(unique_handles, unique_labels, 
-               loc='center left',
-               bbox_to_anchor=(1.0, 0.5))
+    # Create the legend in the dedicated legend axes, centered and with multiple columns
+    legend = legend_ax.legend(unique_handles, unique_labels, 
+                      loc='center',
+                      ncol=min(5, len(unique_labels)),  # Use at most 5 columns or fewer if fewer items
+                      frameon=True,
+                      fontsize=9)
     
-    # Add horizontal colorbar
-    cbar_ax = fig.add_subplot(gs[1, :])
+    # Add horizontal colorbar in the bottom row
+    cbar_ax = fig.add_subplot(gs[2, :])
     cbar = plt.colorbar(im, cax=cbar_ax, orientation='horizontal')
-    cbar.set_label('Accumulated Cost', labelpad=10)
+    cbar.set_label('Travel Time (hours)', labelpad=10)
     
     cbar.set_ticks(np.linspace(vmin, vmax, 6))
     cbar.set_ticklabels([f'{np.expm1(v):.1f}' for v in np.linspace(vmin, vmax, 6)])
     
+    # Adjust layout
     plt.tight_layout()
-    plt.subplots_adjust(hspace=0.2)
+    plt.subplots_adjust(top=0.92, hspace=0.2)  # Adjust to accommodate the main title
     
     # Comment out the plt.show() call:
     plt.show()
@@ -430,6 +466,10 @@ def create_decomposition_table(decomp_data, output_path):
     # Create a figure for the table
     fig, ax = plt.subplots(figsize=(6, 4))
     ax.axis('off')
+    
+    # Add a title to the table
+    plt.suptitle('Factor Contribution Analysis for Evacuation Cost', 
+                 fontsize=14, fontweight='bold', y=0.95)
     
     # Create the table from the DataFrame
     table = ax.table(
@@ -543,9 +583,9 @@ def create_final_evacuation_table(all_results, source_names, output_path):
     fig, ax = plt.subplots(figsize=(12, 3))  # Wider figure for more columns
     ax.axis('off')
     
-    # Convert df to a 2D list (cellText) plus colLabels
-    # However, we have a MultiIndex. We'll create a table with two header rows:
-    # an approach is to flatten the columns for colLabels, but let's do a quick approach:
+    # Add a title to the table
+    plt.suptitle('Evacuation Time Summary by Source Location and Walking Speed', 
+                 fontsize=14, fontweight='bold', y=0.98)
     
     # We can manually set up the table by using the DataFrame's .values for cellText
     # and the multi-level columns as a header.
