@@ -3,21 +3,46 @@ name: Build and deploy MkDocs
 on:
   push:
     branches:
-      - master  # or main, depending on your default branch
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.9'
+      
+      - name: Show directory structure (pre-install)
+        run: |
+          pwd
+          ls -la
+          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install mkdocs
-          # Add any other dependencies your site needs
+          # Install MkDocs and common plugins (adjust as needed)
+          pip install mkdocs mkdocs-material
+          # If you have a requirements.txt file:
+          # pip install -r requirements.txt
+      
+      - name: Debug MkDocs configuration
+        run: |
+          echo "Python version:"
+          python --version
+          echo "MkDocs version:"
+          mkdocs --version
+          echo "Checking mkdocs.yml:"
+          cat mkdocs.yml || echo "mkdocs.yml not found!"
+      
       - name: Deploy
-        run: mkdocs gh-deploy --force
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          mkdocs gh-deploy --force --verbose
